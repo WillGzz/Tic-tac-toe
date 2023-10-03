@@ -10,6 +10,20 @@ h2 {
     font-size: 35px;
     margin: 10px;
 }
+.scoreboard {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.score {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 10px;
+}
+
+#player-x, #player-o {
+    font-size: 20px;
+}
 
 .flex-container {
     /* In order to use flex-box we need to first set our display property */
@@ -19,6 +33,7 @@ h2 {
     /* this will center content vertically */
     align-items: center;
     /* tells the container to align the children in columns rather than rows */
+   
 }
 
 .flex-column {
@@ -52,4 +67,5 @@ h2 {
     margin: 10px;
     background:rgb(6, 6, 6);
     color: white;
+   
 }
