@@ -1,7 +1,7 @@
 body {
     text-align: center;
     font-family: Arial, Helvetica, sans-serif;
-    background-color: rgba(249, 142, 142, 0.75);
+    background-color: rgb(1, 9, 9);
 
 }
 
@@ -50,22 +50,22 @@ h2 {
 }
 
 .square {
-    border: 2px solid rgba(0, 0, 0, .75);
+    border: 2px solid white;
     height: 140px;
     width: 140px;
     text-align: center;
-    font-size: 45px;
+    font-size: 60px;
     line-height: 100px;
 }
 
 #reset-button {
     text-align: center;
     font-size: 20px;
-    border: 2px solid rgb(233, 41, 41);
+    border: 2px solid rgb(255, 0, 0);
     height: 55px;
     width: 100px;
     margin: 10px;
     background:rgb(6, 6, 6);
-    color: white;
+    color: rgb(208, 255, 0);
    
 }
