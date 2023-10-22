@@ -4,7 +4,9 @@ body {
     background-color: rgb(1, 9, 9);
 
 }
-
+h1{
+    color: white;
+}
 h2 {
     margin: 0 auto;
     font-size: 35px;
