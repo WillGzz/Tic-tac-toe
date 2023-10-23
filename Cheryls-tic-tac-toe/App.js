@@ -23,17 +23,26 @@ function App() {
     "",
   ]);
   const [turn, setTurn] = React.useState("X");
-  const [elementColor, setelementColor] = React.useState('black');
-  const [borderColors, setBorderColors] = React.useState(Array(9).fill('white'));
-  const [buttonColor, setButtonColor] = React.useState('yellow');
-  let win;
-  
- function handleTurn(event) {
+  const [message, setMessage] = React.useState(`It's ${turn}'s turn!`);
+  const [elementColor, setelementColor] = React.useState("black");
+  const [borderColors, setBorderColors] = React.useState(
+    Array(9).fill("white")
+  );
+  const [buttonColor, setButtonColor] = React.useState("yellow");
+  const [gameOver, setGameOver] = React.useState(false);
+  const [win, setWin] = React.useState(null);
+
+  React.useEffect(() => {
+    let winner = getWinner();
+    setWin(winner);
+  }, [board]);
+
+  function handleTurn(event) {
+    if (gameOver) return;
     let idx = event.target.id;
     let newBoard = [...board];
 
-    if (newBoard[idx] !== "") {
-      // If the square is not empty, return immediately
+    if (win || newBoard[idx] !== "") {
       return;
     }
     newBoard[idx] = turn;
@@ -41,10 +50,28 @@ function App() {
     setBoard(newBoard);
 
     setTurn(newBoard[idx] === "X" ? "O" : "X");
-    win = getWinner();
   }
+  React.useEffect(() => {
+    let winner = getWinner();
+    setWin(winner);
+
+    let newMessage = "";
+    if (winner === "T") {
+      newMessage = `That's a tie!`;
+      setGameOver(true);
+    } else if (winner) {
+      newMessage = `${winner} wins the game!`;
+      setGameOver(true);
+    } else {
+      newMessage = `It's ${turn}'s turn!`;
+    }
+
+    setMessage(newMessage);
+  }, [board]);
+  
   function handleReset() {
     setBoard(["", "", "", "", "", "", "", "", ""]);
+    setGameOver(false);
   }
 
   function getWinner() {
@@ -60,20 +87,22 @@ function App() {
     });
 
     return winner ? winner : board.includes("") ? null : "T";
- }
- function getRandomColor() {
+  }
+  function getRandomColor() {
     return "#" + Math.floor(Math.random() * 16777215).toString(16);
   }
   React.useEffect(() => {
     const colorInterval = setInterval(() => {
-      setelementColor(prevColor => prevColor === 'pink' ? 'gold' : 'pink');
+      setelementColor((prevColor) => (prevColor === "pink" ? "gold" : "pink"));
     }, 500);
- return () => clearInterval(colorInterval);
+    return () => clearInterval(colorInterval);
   }, []);
 
   React.useEffect(() => {
     const buttonColorInterval = setInterval(() => {
-      setButtonColor(prevColor => prevColor === 'yellow' ? 'pink' : 'yellow');
+      setButtonColor((prevColor) =>
+        prevColor === "yellow" ? "pink" : "yellow"
+      );
     }, 500);
 
     return () => clearInterval(buttonColorInterval);
@@ -88,9 +117,9 @@ function App() {
   }, []);
   return (
     <div>
-      <h1 style={{ color: 'darkred'}}>Tic-Tac-Toe</h1>
+      <h1 style={{ color: "darkred" }}>Tic-Tac-Toe</h1>
 
-      <h2 style={{ color: elementColor }}>It's {turn}'s turn!</h2>
+      <h2 style={{ color: elementColor }}>{message}</h2>
 
       <div class="flex-container flex-column">
         <div class="flex-container flex-wrap" id="board" onClick={handleTurn}>
@@ -100,7 +129,10 @@ function App() {
                 class="square"
                 key={idx}
                 id={idx}
-                style={{ color: value === "X" ? "red" : "blue",  borderColor: borderColors[idx]}}
+                style={{
+                  color: value === "X" ? "red" : "blue",
+                  borderColor: borderColors[idx],
+                }}
               >
                 {value}
               </div>
@@ -108,7 +140,11 @@ function App() {
           })}
         </div>
 
-        <button id="reset-button" onClick={handleReset} style={{ color: buttonColor }}>
+        <button
+          id="reset-button"
+          onClick={handleReset}
+          style={{ color: buttonColor }}
+        >
           Reset
         </button>
       </div>
